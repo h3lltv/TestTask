@@ -1,15 +1,15 @@
 package zabudskyi.testtask.protocol.request;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class GetCustomerRequest {
-    @NotBlank
+    @NotNull
     private Long id;
 
     public GetCustomerRequest() {
     }
 
-    public GetCustomerRequest(@NotBlank Long id) {
+    public GetCustomerRequest(@NotNull Long id) {
         this.id = id;
     }
 

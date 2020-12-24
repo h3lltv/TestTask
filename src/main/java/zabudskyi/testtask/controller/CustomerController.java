@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import zabudskyi.testtask.domain.Customer;
 import zabudskyi.testtask.protocol.request.AddCustomerRequest;
 import zabudskyi.testtask.protocol.request.DeleteCustomerRequest;
+import zabudskyi.testtask.protocol.request.GetCustomerRequest;
 import zabudskyi.testtask.protocol.request.UpdateCustomerRequest;
 import zabudskyi.testtask.protocol.response.CustomerDto;
+import zabudskyi.testtask.protocol.response.UpdateCustomerDto;
 import zabudskyi.testtask.service.CustomerService;
 
 import javax.transaction.Transactional;
@@ -40,26 +42,21 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerDto> getOne(@PathVariable("id") Customer customer) {
-        return ResponseEntity.ok(CustomerDto.fromCustomer(customer));
+    public ResponseEntity<CustomerDto> getOne(@Valid GetCustomerRequest request) {
+        return ResponseEntity.ok(customerService.getOne(request.getId()));
     }
 
     @PutMapping(value = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<CustomerDto> update(
-            @PathVariable("id") Customer customerFromDb,
-            @Valid @RequestBody Customer customer
+            @PathVariable("id") Long id,
+            @Valid @RequestBody UpdateCustomerDto updateCustomerDto
     ) {
-        BeanUtils.copyProperties(customer, customerFromDb, "id", "creationDate", "updateDate");
-        CustomerDto customer1 = customerService.createCustomer(customer.getFullName(),
-                customer.getEmail(),
-                customer.getPhone());
-        customerFromDb.setUpdateDate(LocalDateTime.now());
-        return ResponseEntity.ok(customer1);
+        CustomerDto customerDto = customerService.update(id, updateCustomerDto.getFullName(), updateCustomerDto.getPhone());
+        return ResponseEntity.ok(customerDto);
     }
 
-    @Transactional
-    @DeleteMapping("{id}")
-    public void delete(@RequestBody @Valid DeleteCustomerRequest request) {
-        customerService.delete(request.getId());
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Long id) {
+        customerService.delete(id);
     }
 }

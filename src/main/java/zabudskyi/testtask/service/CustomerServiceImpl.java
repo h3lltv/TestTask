@@ -33,6 +33,22 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public void delete(Long id) {
-        customerRepo.findById(id).ifPresent(Customer::setDeleted);
+        Customer customer =
+                customerRepo.findById(id).orElseThrow(() ->NotFoundException.customerNotFoundException(id));
+        customer.setDeleted();
+        customerRepo.save(customer);
+    }
+
+    @Override
+    public CustomerDto getOne(Long id) {
+        return CustomerDto.fromCustomer(customerRepo.findById(id).orElseThrow(() ->NotFoundException.customerNotFoundException(id)));
+    }
+
+    @Override
+    public CustomerDto update(Long id, String name, String phone) {
+        Customer customer = customerRepo.findById(id).orElseThrow(() ->NotFoundException.customerNotFoundException(id));
+        customer.updateNameAndPhone(name, phone);
+        customerRepo.save(customer);
+        return CustomerDto.fromCustomer(customer);
     }
 }

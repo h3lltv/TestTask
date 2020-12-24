@@ -3,11 +3,11 @@ package zabudskyi.testtask.protocol.request;
 import com.sun.istack.Nullable;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class UpdateCustomerRequest {
-    @NotBlank
+    @NotNull
     private Long id;
     @Length(min = 2, max = 50)
     private String name;
@@ -16,7 +16,7 @@ public class UpdateCustomerRequest {
     private String phone;
 
 
-    public UpdateCustomerRequest(@NotBlank Long id,
+    public UpdateCustomerRequest(@NotNull Long id,
                                  @Length(min = 2, max = 50) String name,
                                  @Nullable @Pattern(regexp = "^\\+\\d{6,14}$") String phone) {
         this.id = id;

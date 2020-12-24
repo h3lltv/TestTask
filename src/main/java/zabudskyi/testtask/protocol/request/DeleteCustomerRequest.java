@@ -1,16 +1,16 @@
 package zabudskyi.testtask.protocol.request;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class DeleteCustomerRequest {
 
-    @NotBlank
-    public Long id;
+    @NotNull
+    private Long id;
 
     public DeleteCustomerRequest() {
     }
 
-    public DeleteCustomerRequest(Long id) {
+    public DeleteCustomerRequest(@NotNull Long id) {
         this.id = id;
     }
 

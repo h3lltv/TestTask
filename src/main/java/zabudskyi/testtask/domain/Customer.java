@@ -33,6 +33,11 @@ public class Customer {
         this.deleted = false;
     }
 
+    public void updateNameAndPhone(String newName, String newPhone){
+        this.fullName=newName;
+        this.phone=newPhone;
+    }
+
     public Long getId() {
         return id;
     }

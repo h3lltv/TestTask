@@ -1,14 +1,11 @@
 package zabudskyi.testtask.protocol.request;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.lang.Nullable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 public class AddCustomerRequest {
-
-    private Long id;
     @NotBlank
     @Length(min = 2, max = 50)
     private String fullName;
@@ -17,7 +14,6 @@ public class AddCustomerRequest {
     @Length(min = 2, max = 100)
     private String email;
 
-    @Nullable
     @Pattern(regexp="^\\+\\d{6,14}$")
     private String phone;
 
@@ -25,12 +21,10 @@ public class AddCustomerRequest {
     }
 
     public AddCustomerRequest(
-            Long id,
             @NotBlank @Length(min = 2, max = 50) String fullName,
             @NotBlank @Length(min = 2, max = 100) String email,
-            @Nullable @Pattern(regexp = "^\\+\\d{6,14}$") String phone
+            @Pattern(regexp = "^\\+\\d{6,14}$") String phone
     ) {
-        this.id=id;
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;
@@ -58,13 +52,5 @@ public class AddCustomerRequest {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }
